@@ -55,7 +55,10 @@ use "$user/$data/final_MAY14.dta", clear
 ********************************************************************************	
 * COMBINED REGRESSIONS: TABLE 1 A-E
 ********************************************************************************	
-* TRAINING
+* TRAINING 
+* Primary analyses
+* Training, ITS only 
+	* not estimating because there are only 2 studies
 *Training, ITS and 2P
 	mixed es_time time esbaseline || idnum:  if strat==1  & type!="1P", ///
 		  vce(cluster idnum) covariance(identity) 
@@ -67,67 +70,95 @@ use "$user/$data/final_MAY14.dta", clear
 	* Linearity assumption
 	twoway (scatter rs_train1 es1), yline(0)
 	graph export "$user/$graphs/Residuals/residuals_train_its_2p.pdf", replace	
-	
 	* Predictions for graphs
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))
+
+*Sensitivity analyses
+* Training, ITS 2P, restrict time to 12 months (>=3 studies)
+	mixed es_time time esbaseline || idnum:   if strat==1 & time<13 & type!="1P", ///
+	mle   vce(cluster idnum)	covariance(identity) 
+	predict es2
+	predict rs_train2, rstandard
+	*Normality of residuals
+	qnorm rs_train2,   graphregion(color(white))
+	graph export "$user/$graphs/Residuals/qnorm_train_its_2p_sens1.pdf", replace
+	* Linearity assumption
+	twoway (scatter rs_train2 es2), yline(0)
+	graph export "$user/$graphs/Residuals/residuals_train_its_2p_sens1.pdf", replace
 	
 *Training, all studies
 	mixed es_time time esbaseline || idnum:   if strat==1 , ///
 	mle   vce(cluster idnum) covariance(identity)
-	predict es2
-	predict rs_train2, rstandard
-	*Normality of residuals
-	qnorm rs_train2,  graphregion(color(white))
-	graph export "$user/$graphs/Residuals/qnorm_train_all.pdf", replace
-	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))	
-	
-	* Training, all studies, restrict time to 27 months (>= 3 studies)
-	mixed es_time time esbaseline || idnum:   if strat==1 & time<28 , ///
-	mle   vce(cluster idnum) covariance(identity) 	
+	predict es3
 	predict rs_train3, rstandard
-	qnorm rs_train3,   graphregion(color(white))
-	
-	* Training, ITS 2P, restrict time to 12 months (>=3 studies)
-	mixed es_time time esbaseline || idnum:   if strat==1 & time<13 & type!="1P", ///
-	mle   vce(cluster idnum)	covariance(identity) 
-	predict rs_train4, rstandard
-	qnorm rs_train4,   graphregion(color(white))
-	
+	*Normality of residuals
+	qnorm rs_train3,  graphregion(color(white))
+	graph export "$user/$graphs/Residuals/qnorm_train_all.pdf", replace
+	* Linearity assumption
+	twoway (scatter rs_train3 es3), yline(0)
+	graph export "$user/$graphs/Residuals/residuals_train_all.pdf", replace	
+	* Predictions for graphs
+	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))	
+********************************************************************************	
 * SUPERVISION
-	*  Supervision, only ITS
+*Primary analyses
+*Supervision, only ITS
 	mixed es_time time esbaseline  || idnum:  if strat==2 & type=="ITS" , ///
 	mle   vce(cluster idnum) covariance(identity) 
+	predict es4
 	predict rs_sup1, rstandard
+	*Normality of residuals
 	qnorm rs_sup1,   graphregion(color(white))
+	graph export "$user/$graphs/Residuals/qnorm_sup_its.pdf", replace // notgood
+	* Linearity assumption
+	twoway (scatter rs_sup1 es4), yline(0)
+	graph export "$user/$graphs/Residuals/residuals_sup_its.pdf", replace	
+	* Predictions for graphs
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
 	
-	* Supervision, ITS and 2P
+* Supervision, ITS and 2P
 	mixed es_time time esbaseline  || idnum:  if strat==2 & type!="1P" , ///
 	mle   vce(cluster idnum) covariance(identity) 
+	predict es5
 	predict rs_sup2, rstandard
+	*Normality of residuals
 	qnorm rs_sup2,   graphregion(color(white))
+	graph export "$user/$graphs/Residuals/qnorm_sup_its_2p.pdf", replace //notgood
+	* Linearity assumption
+	twoway (scatter rs_sup2 es5), yline(0)
+	graph export "$user/$graphs/Residuals/residuals_sup_its_2p.pdf", replace
+	* Predictions for graphs
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
-	
-	* Supervision, all studies
-	mixed es_time time esbaseline  || idnum:  if strat==2  , ///
-	mle   vce(cluster idnum)  covariance(identity) 
-	predict rs_sup3, rstandard
-	qnorm rs_sup3,   graphregion(color(white))
-	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
-	
-	* Supervision, all studies, restrict time to 10 monts (>=3 studies)
-	mixed es_time time esbaseline  || idnum:  if strat==2 & type!="1P" & time<11 ///
-	, mle   vce(cluster idnum) covariance(identity) 
-	predict rs_sup4, rstandard
-	qnorm rs_sup4,   graphregion(color(white))
-	
-	*  Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)
+
+*Sensitivity analyses
+*  Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)
 	mixed es_time time esbaseline  || idnum:  if strat==2 & time<7 & type!="1P", ///
 	mle   vce(cluster idnum)  covariance(identity) 
-	predict rs_sup4, rstandard
-	qnorm rs_sup4,   graphregion(color(white))
+	predict es6
+	predict rs_sup3, rstandard
+	*Normality of residuals
+	qnorm rs_sup3,   graphregion(color(white))
+	graph export "$user/$graphs/Residuals/qnorm_sup_sens1.pdf", replace //notgood
+	* Linearity assumption
+	twoway (scatter rs_sup3 es6), yline(0)
+	graph export "$user/$graphs/Residuals/residuals_sup_its_2p.pdf", replace
 	
+* Supervision, all studies
+	mixed es_time time esbaseline  || idnum:  if strat==2  , ///
+	mle   vce(cluster idnum)  covariance(identity) 
+	predict es7
+	predict rs_sup4, rstandard
+	*Normality of residuals
+	qnorm rs_sup4,   graphregion(color(white))
+	graph export "$user/$graphs/Residuals/qnorm_sup_all.pdf", replace 
+	* Linearity assumption
+	twoway (scatter rs_sup4 es7), yline(0)
+	graph export "$user/$graphs/Residuals/residuals_sup_all.pdf", replace
+	*Predictions for graph
+	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
+********************************************************************************		
 * TRAINING COMBINED WITH SUPERVISION
+* Primary analyses
 	*Train+Sup,  2P only
 	mixed es_time time esbaseline  || idnum: if strat==3  & type!="1P", ///
 	mle   vce(cluster idnum)  covariance(identity) 
