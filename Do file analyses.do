@@ -53,7 +53,7 @@ use "$user/$data/final_MAY14.dta", clear
 			su esbaseline if type!="1P" & strat==`i'	
 		}
 ********************************************************************************	
-* COMBINED REGRESSIONS: TABLE 1 A-E
+* COMBINED REGRESSIONS: MANUSCRIPT TABLE 1 A-E
 ********************************************************************************	
 * TRAINING 
 * Primary analyses
@@ -81,11 +81,11 @@ use "$user/$data/final_MAY14.dta", clear
 	predict rs_train2, rstandard
 	*Normality of residuals
 	qnorm rs_train2,   graphregion(color(white)) ///
-	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)")
+	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)", size(small))
 	graph export "$user/$graphs/Residuals/qnorm_train_its_2p_sens1.pdf", replace
 	* Linearity assumption
 	twoway (scatter rs_train2 es2), yline(0) ///
-	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)")
+	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)", size(small))
 	graph export "$user/$graphs/Residuals/rvfplot_train_its_2p_sens1.pdf", replace
 	
 *Training, all studies
@@ -111,7 +111,7 @@ use "$user/$data/final_MAY14.dta", clear
 	predict rs_sup1, rstandard
 	*Normality of residuals
 	qnorm rs_sup1,   graphregion(color(white)) title("Supervision, only ITS")
-	graph export "$user/$graphs/Residuals/qnorm_sup_its.pdf", replace // notgood
+	graph export "$user/$graphs/Residuals/qnorm_sup_its.pdf", replace 
 	* Linearity assumption
 	twoway (scatter rs_sup1 es4), yline(0) title("Supervision, only ITS")
 	graph export "$user/$graphs/Residuals/rvfplot_sup_its.pdf", replace	
@@ -125,7 +125,7 @@ use "$user/$data/final_MAY14.dta", clear
 	predict rs_sup2, rstandard
 	*Normality of residuals
 	qnorm rs_sup2,   graphregion(color(white)) title("Supervision, ITS and 2P")
-	graph export "$user/$graphs/Residuals/qnorm_sup_its_2p.pdf", replace //notgood
+	graph export "$user/$graphs/Residuals/qnorm_sup_its_2p.pdf", replace 
 	* Linearity assumption
 	twoway (scatter rs_sup2 es5), yline(0) title("Supervision, ITS and 2P")
 	graph export "$user/$graphs/Residuals/rvfplot_sup_its_2p.pdf", replace
@@ -141,7 +141,7 @@ use "$user/$data/final_MAY14.dta", clear
 	*Normality of residuals
 	qnorm rs_sup3,   graphregion(color(white)) ///
 	title("Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)", size(medium))
-	graph export "$user/$graphs/Residuals/qnorm_sup_sens1.pdf", replace //notgood
+	graph export "$user/$graphs/Residuals/qnorm_sup_sens1.pdf", replace 
 	* Linearity assumption
 	twoway (scatter rs_sup3 es6), yline(0) ///
 	title("Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)" , size(medium))
@@ -274,7 +274,7 @@ use "$user/$data/final_MAY14.dta", clear
 	graph export "$user/$graphs/Residuals/qnorm_gps_train_its.pdf", replace
 	* Linearity assumption
 	twoway (scatter rs_gpst1 es14), yline(0) ///
-	title("Group problem solving+training, ITS studies only") //notgood
+	title("Group problem solving+training, ITS studies only") 
 	graph export "$user/$graphs/Residuals/rvfplot_gps_train_its.pdf", replace
 	*Preditions for graph
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 ))	
@@ -291,12 +291,13 @@ use "$user/$data/final_MAY14.dta", clear
 	graph export "$user/$graphs/Residuals/qnorm_gps_train_sens1.pdf", replace
 	* Linearity assumption
 	twoway (scatter rs_gpst2 es14), yline(0) ///
-	title("Group problem solving+training, ITS studies restricted time to 12 months, >=3 studies", size(small)) //notgood
+	title("Group problem solving+training, ITS studies restricted time to 12 months, >=3 studies", size(small)) 
 	graph export "$user/$graphs/Residuals/rvfplot_gps_train_sens1.pdf", replace
 	
-********************************************************************************	
-* TRAINING AND SUPERVISION STRATIFIED BY DOSE (ONE OFF OR ONGOING INTERVENTIONS)
-********************************************************************************		
+/********************************************************************************	
+REGRESSIONS FOR TRAINING AND SUPERVISION STRATIFIED BY DOSE (ONE OFF OR ONGOING
+INTERVENTIONS), Supplementary materials, Table E
+********************************************************************************/		
 * TRAINING
 	*One-time training, ITS and 2P	
 	mixed es_time time esbaseline || idnum:  if strat==1 & TRAIN_INTER==0 & ///
