@@ -53,28 +53,27 @@ use "$user/$data/final_OCT272020.dta", clear
 			su esbaseline if type!="1P" & strat==`i'	
 		}
 ********************************************************************************	
-* COMBINED REGRESSIONS: MANUSCRIPT TABLE 1 A-E
+* COMBINED REGRESSIONS: MANUSCRIPT TABLE 1 models (a) (b) (c) (d) (e)
 ********************************************************************************	
-* TRAINING 
+* (a) TRAINING 
 * Primary analyses
-* Training, ITS only 
-	* not estimating because there are only 2 studies
-*Training, ITS and 2P
-	mixed es_time time esbaseline || idnum:  if strat==1  & type!="1P", ///
-		  vce(cluster idnum) covariance(identity) 
+* Training, ITS only: not estimating because there are only 2 studies
+* (a) i. Training, ITS and 2P
+	mixed 	es_time time esbaseline || idnum:  if strat==1  & type!="1P", ///
+			vce(cluster idnum) covariance(identity) 
 	predict es1
 	predict rs_train1, rstandard
 	*Normality of residuals
 	qnorm rs_train1,   graphregion(color(white)) title("Training, ITS and 2P")
-	graph export "$user/$graphs/Residuals/qnorm1.pdf", replace	
+	graph export "$user/$graphs/Residuals/model (a) i._qnorm.pdf", replace	
 	* Linearity assumption
 	twoway (scatter rs_train1 time), yline(0) title("Training, ITS and 2P")
-	graph export "$user/$graphs/Residuals/rvfplot1.pdf", replace	
+	graph export "$user/$graphs/Residuals/model (a) i._rvfplot.pdf", replace	
 	* Predictions for graphs
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))
 
 *Sensitivity analyses
-* Training, ITS 2P, restrict time to 12 months (>=3 studies)
+* (a) ii. Training, ITS 2P, restrict time to 12 months (>=3 studies)
 	mixed es_time time esbaseline || idnum:   if strat==1 & time<13 & type!="1P", ///
 	mle   vce(cluster idnum)	covariance(identity) 
 	predict es2
@@ -88,7 +87,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)", size(small))
 	graph export "$user/$graphs/Residuals/rvfplot2.pdf", replace
 	
-*Training, all studies
+* (a) iii. Training, all studies
 	mixed es_time time esbaseline || idnum:   if strat==1 , ///
 	mle   vce(cluster idnum) covariance(identity)
 	predict es3
@@ -102,9 +101,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	* Predictions for graphs
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))	
 ********************************************************************************	
-* SUPERVISION
+* (b) SUPERVISION 
 *Primary analyses
-*Supervision, only ITS
+*(b) i. Supervision, only ITS
 	mixed es_time time esbaseline  || idnum:  if strat==2 & type=="ITS" , ///
 	mle   vce(cluster idnum) covariance(identity) 
 	predict es4
@@ -118,7 +117,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	* Predictions for graphs
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
 	
-* Supervision, ITS and 2P
+*(b) ii. Supervision, ITS and 2P
 	mixed es_time time esbaseline  || idnum:  if strat==2 & type!="1P" , ///
 	mle   vce(cluster idnum) covariance(identity) 
 	predict es5
@@ -133,7 +132,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
 
 *Sensitivity analyses
-*  Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)
+*(b) iii. Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)
 	mixed es_time time esbaseline  || idnum:  if strat==2 & time<7 & type!="1P", ///
 	mle   vce(cluster idnum)  covariance(identity) 
 	predict es6
@@ -147,7 +146,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	title("Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)" , size(medium))
 	graph export "$user/$graphs/Residuals/rvfplot6.pdf", replace
 	
-* Supervision, all studies
+* (b) iv. Supervision, all studies
 	mixed es_time time esbaseline  || idnum:  if strat==2  , ///
 	mle   vce(cluster idnum)  covariance(identity) 
 	predict es7
@@ -160,12 +159,12 @@ use "$user/$data/final_OCT272020.dta", clear
 	graph export "$user/$graphs/Residuals/rvfplot7.pdf", replace
 	*Predictions for graph
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
+	
 ********************************************************************************		
-* TRAINING COMBINED WITH SUPERVISION
+*(c) TRAINING COMBINED WITH SUPERVISION
 * Primary analyses
-* Training+Supervision, ITS only
-* There are no ITS studies for this strategy
-* Training+Supervision,  2P only
+* Training+Supervision, ITS only: there are no ITS studies for this strategy
+*(c) i. Training+Supervision,  2P only
 	mixed es_time time esbaseline  || idnum: if strat==3  & type!="1P", ///
 	mle   vce(cluster idnum)  covariance(identity) 
 	predict es8
@@ -182,21 +181,23 @@ use "$user/$data/final_OCT272020.dta", clear
 	graph export "$user/$graphs/Residuals/rvfplot8.pdf", replace
 	
 *Sensitivity analyses
-* Train+Sup, 2P only restrict time to 6 months (>=3 studies)
+* (c) ii. Train+Sup, 2P only restrict time to 6 months (>=3 studies)
 	mixed es_time time esbaseline  || idnum:  if strat==3 & time<7 & type!="1P", ///
 	mle   vce(cluster idnum)   covariance(identity) 
 	predict es9 
 	predict rs_tsup4, rstandard
 	*Normality residuals
 	qnorm rs_tsup4,   graphregion(color(white)) ///
-	title("Training plus supervision, restricted time to 6 months (>=3 studies)",size(medium))
+	title("Training plus supervision, restricted time to 6 months (>=3 studies)" ///
+	,size(medium))
 	graph export "$user/$graphs/Residuals/qnorm9.pdf", replace
 	* Linearity assumption
 	twoway (scatter rs_tsup4 es9), yline(0) ///
-	title("Training plus supervision, restricted time to 6 months (>=3 studies)",size(medium))
+	title("Training plus supervision, restricted time to 6 months (>=3 studies)" ///
+	,size(medium))
 	graph export "$user/$graphs/Residuals/rvfplot9.pdf", replace
 		
-*Training+Supervision, all studies
+*(c) iii. Training+Supervision, all studies
 	mixed es_time time esbaseline  || idnum:  if strat==3  , ///
 	mle   vce(cluster idnum) covariance(identity) 
 	predict es10
@@ -212,9 +213,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	* Predictions for graph
 	margins, at(time=(0 2 4 6 8 10 12 14 16))
 ********************************************************************************		
-* * GROUP PROBLEM SOLVING
+*(d) GROUP PROBLEM SOLVING
 * Primary analyses
-* GPS, ITS only
+*(d) i. and ii. GPS, ITS only 
 	mixed es_time time esbaseline || idnum:  if strat==4 & type=="ITS", ///
 	mle   vce(cluster idnum)  covariance(identity) 
 	predict es11
@@ -231,7 +232,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	margins, at(time=(0 4 8 12 16 20 24 28 32 35))
 	
 *Sensitivity analyses
-* GPS, ITS only, restrict time to 29 months (>=3 studies)
+*(d) iii. GPS, ITS only, restrict time to 29 months (>=3 studies)
 	mixed es_time time esbaseline || idnum: if strat==4 & time<30 & type!="1P", ///
 	mle   vce(cluster idnum) covariance(identity)  
 	predict es12
@@ -245,7 +246,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	title("Group problem solving, ITS studies only, restricted time to 29 months, >=3 studies", size(small))
 	graph export "$user/$graphs/Residuals/rvfplot12.pdf", replace
 	
-* GPS, all studies
+*(d) iv. GPS, all studies
 	mixed es_time time esbaseline || idnum: if strat==4 , ///
 	mle   vce(cluster idnum)  covariance(identity) 
 	predict es13
@@ -261,9 +262,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	title("Group problem solving, all studies")
 	graph export "$user/$graphs/Residuals/rvfplot13.pdf", replace
 ********************************************************************************		
-* * GROUP PROBLEM SOLVING PLUS TRAINING	
+*(e) GROUP PROBLEM SOLVING PLUS TRAINING	
 * Primary analyses
-* GPS + Training, ITS only
+*(e) i. and ii. GPS + Training, ITS only
 	mixed es_time time esbaseline || idnum: if strat==5 , ///
 	mle nolog vce(cluster idnum) covariance(identity) 
 	predict es14
@@ -280,13 +281,13 @@ use "$user/$data/final_OCT272020.dta", clear
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 ))	
 
 *Sensitivity analysis	
-* GPS + Training, ITS + 2P, restrict time to 13 months (>=3 studies)
+*(e) iii. GPS + Training, ITS + 2P, restrict time to 13 months (>=3 studies)
 	mixed es_time time esbaseline || idnum: if strat==5 & time<13 , ///
 	mle nolog vce(cluster idnum) covariance(identity) 	
 	predict es15
 	predict rs_gpst2, rstandard
 	*Normality of residuals
-	qnorm rs_gpst2,   graphregion(color(white))
+	qnorm rs_gpst2,   graphregion(color(white)) ///
 	title("Group problem solving+training, ITS studies restricted time to 12 months, >=3 studies", size(small))
 	graph export "$user/$graphs/Residuals/qnorm15.pdf", replace
 	* Linearity assumption
