@@ -2,9 +2,9 @@
 HCPPR COMBINED WAVE 1 & 2 
 Analyses for: Change in strategy effectiveness overtime manuscript
 Created by: Catherine Arsenault
-Last updated: October 28, 2020
+Last updated: October 30, 2020
 ********************************************************************************/
-use "$user/$data/final_MAY14.dta", clear
+use "$user/$data/final_OCT272020.dta", clear
 ********************************************************************************
 * DESCRIPTIVE RESULTS
 ********************************************************************************		
