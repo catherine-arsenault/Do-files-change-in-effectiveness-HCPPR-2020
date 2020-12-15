@@ -4,6 +4,7 @@ Analyses for: Change in strategy effectiveness overtime manuscript
 Created by: Catherine Arsenault
 Last updated: October 30, 2020
 ********************************************************************************/
+global graphs "/Users/acatherine/Documents/GitHub/Do-files-change-in-effectiveness-HCPPR-2020/Diagnostic plots for models in Table 1a-e"
 use "$user/$data/final_OCT272020.dta", clear
 ********************************************************************************
 * DESCRIPTIVE RESULTS
@@ -65,10 +66,8 @@ use "$user/$data/final_OCT272020.dta", clear
 	predict rs_train1, rstandard
 	*Normality of residuals
 	qnorm rs_train1,   graphregion(color(white)) title("Training, ITS and 2P")
-	graph export "$user/$graphs/Residuals/model (a) i._qnorm.pdf", replace	
 	* Linearity assumption
-	twoway (scatter rs_train1 time), yline(0) title("Training, ITS and 2P")
-	graph export "$user/$graphs/Residuals/model (a) i._rvfplot.pdf", replace	
+	twoway (scatter rs_train1 es1), yline(0) title("Training, ITS and 2P") graphregion(color(white))
 	* Predictions for graphs
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))
 
@@ -81,11 +80,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_train2,   graphregion(color(white)) ///
 	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)", size(small))
-	graph export "$user/$graphs/Residuals/qnorm2.pdf", replace
 	* Linearity assumption
-	twoway (scatter rs_train2 es2), yline(0) ///
+	twoway (scatter rs_train2 es2), yline(0) graphregion(color(white)) ///
 	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)", size(small))
-	graph export "$user/$graphs/Residuals/rvfplot2.pdf", replace
 	
 * (a) iii. Training, all studies
 	mixed es_time time esbaseline || idnum:   if strat==1 , ///
@@ -94,10 +91,8 @@ use "$user/$data/final_OCT272020.dta", clear
 	predict rs_train3, rstandard
 	*Normality of residuals
 	qnorm rs_train3,  graphregion(color(white)) title("Training, all studies")
-	graph export "$user/$graphs/Residuals/qnorm3.pdf", replace
 	* Linearity assumption
-	twoway (scatter rs_train3 es3), yline(0) title("Training, all studies")
-	graph export "$user/$graphs/Residuals/rvfplot3.pdf", replace	
+	twoway (scatter rs_train3 es3), graphregion(color(white)) yline(0) title("Training, all studies")
 	* Predictions for graphs
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))	
 ********************************************************************************	
@@ -110,10 +105,8 @@ use "$user/$data/final_OCT272020.dta", clear
 	predict rs_sup1, rstandard
 	*Normality of residuals
 	qnorm rs_sup1,   graphregion(color(white)) title("Supervision, only ITS")
-	graph export "$user/$graphs/Residuals/qnorm4.pdf", replace 
 	* Linearity assumption
-	twoway (scatter rs_sup1 es4), yline(0) title("Supervision, only ITS")
-	graph export "$user/$graphs/Residuals/rvfplot4.pdf", replace	
+	twoway (scatter rs_sup1 es4), yline(0) graphregion(color(white)) title("Supervision, only ITS")
 	* Predictions for graphs
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
 	
@@ -124,10 +117,8 @@ use "$user/$data/final_OCT272020.dta", clear
 	predict rs_sup2, rstandard
 	*Normality of residuals
 	qnorm rs_sup2,   graphregion(color(white)) title("Supervision, ITS and 2P")
-	graph export "$user/$graphs/Residuals/qnorm5.pdf", replace 
 	* Linearity assumption
-	twoway (scatter rs_sup2 es5), yline(0) title("Supervision, ITS and 2P")
-	graph export "$user/$graphs/Residuals/rvfplot5.pdf", replace
+	twoway (scatter rs_sup2 es5), graphregion(color(white)) yline(0) title("Supervision, ITS and 2P")
 	* Predictions for graphs
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
 
@@ -140,11 +131,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_sup3,   graphregion(color(white)) ///
 	title("Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)", size(medium))
-	graph export "$user/$graphs/Residuals/qnorm6.pdf", replace 
 	* Linearity assumption
-	twoway (scatter rs_sup3 es6), yline(0) ///
+	twoway (scatter rs_sup3 es6), yline(0) graphregion(color(white)) ///
 	title("Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)" , size(medium))
-	graph export "$user/$graphs/Residuals/rvfplot6.pdf", replace
 	
 * (b) iv. Supervision, all studies
 	mixed es_time time esbaseline  || idnum:  if strat==2  , ///
@@ -153,10 +142,8 @@ use "$user/$data/final_OCT272020.dta", clear
 	predict rs_sup4, rstandard
 	*Normality of residuals
 	qnorm rs_sup4,   graphregion(color(white)) title("Supervision, all studies")
-	graph export "$user/$graphs/Residuals/qnorm7.pdf", replace 
 	* Linearity assumption
-	twoway (scatter rs_sup4 es7), yline(0) title("Supervision, all studies")
-	graph export "$user/$graphs/Residuals/rvfplot7.pdf", replace
+	twoway (scatter rs_sup4 es7), yline(0) graphregion(color(white)) title("Supervision, all studies")
 	*Predictions for graph
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
 	
@@ -172,13 +159,11 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_tsup1,   graphregion(color(white)) ///
 	title("Training plus supervision 2P studies only")
-	graph export "$user/$graphs/Residuals/qnorm8.pdf", replace
 	*Predictions for graph
 	margins, at(time=(0 2 4 6 8 10 12 14 16))
 	* Linearity assumption
-	twoway (scatter rs_tsup1 es8), yline(0) ///
+	twoway (scatter rs_tsup1 es8), graphregion(color(white)) yline(0) ///
 	title("Training plus supervision 2P studies only")
-	graph export "$user/$graphs/Residuals/rvfplot8.pdf", replace
 	
 *Sensitivity analyses
 * (c) ii. Train+Sup, 2P only restrict time to 6 months (>=3 studies)
@@ -190,13 +175,11 @@ use "$user/$data/final_OCT272020.dta", clear
 	qnorm rs_tsup4,   graphregion(color(white)) ///
 	title("Training plus supervision, restricted time to 6 months (>=3 studies)" ///
 	,size(medium))
-	graph export "$user/$graphs/Residuals/qnorm9.pdf", replace
 	* Linearity assumption
-	twoway (scatter rs_tsup4 es9), yline(0) ///
+	twoway (scatter rs_tsup4 es9), yline(0)  graphregion(color(white)) ///
 	title("Training plus supervision, restricted time to 6 months (>=3 studies)" ///
 	,size(medium))
-	graph export "$user/$graphs/Residuals/rvfplot9.pdf", replace
-		
+	
 *(c) iii. Training+Supervision, all studies
 	mixed es_time time esbaseline  || idnum:  if strat==3  , ///
 	mle   vce(cluster idnum) covariance(identity) 
@@ -205,11 +188,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_tsup2,   graphregion(color(white)) ///
 	title("Training plus supervision, all studies")
-	graph export "$user/$graphs/Residuals/qnorm10.pdf", replace
 	* Linearity assumption
-	twoway (scatter rs_tsup2 es9), yline(0) ///
+	twoway (scatter rs_tsup2 es10), yline(0)  graphregion(color(white)) ///
 	title("Training plus supervision, all studies")
-	graph export "$user/$graphs/Residuals/rvfplot10.pdf", replace
 	* Predictions for graph
 	margins, at(time=(0 2 4 6 8 10 12 14 16))
 ********************************************************************************		
@@ -223,11 +204,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_gps1,   graphregion(color(white)) ///
 	title("Group problem solving, ITS studies only")
-	graph export "$user/$graphs/Residuals/qnorm11.pdf", replace
 	* Linearity assumption
-	twoway (scatter rs_gps1 es11), yline(0) ///
+	twoway (scatter rs_gps1 es11), yline(0)   graphregion(color(white))  ///
 	title("Group problem solving, ITS studies only")
-	graph export "$user/$graphs/Residuals/rvfplot11.pdf", replace
 	*Predictions for graph
 	margins, at(time=(0 4 8 12 16 20 24 28 32 35))
 	
@@ -240,11 +219,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_gps2,   graphregion(color(white)) ///
 	title("Group problem solving, ITS studies only, restricted time to 29 months, >=3 studies", size(small))
-	graph export "$user/$graphs/Residuals/qnorm12.pdf", replace
 	* Linearity assumption
-	twoway (scatter rs_gps2 es12), yline(0) ///
+	twoway (scatter rs_gps2 es12), yline(0) graphregion(color(white)) ///
 	title("Group problem solving, ITS studies only, restricted time to 29 months, >=3 studies", size(small))
-	graph export "$user/$graphs/Residuals/rvfplot12.pdf", replace
 	
 *(d) iv. GPS, all studies
 	mixed es_time time esbaseline || idnum: if strat==4 , ///
@@ -254,13 +231,11 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_gps3,   graphregion(color(white)) ///
 	title("Group problem solving, all studies")
-	graph export "$user/$graphs/Residuals/qnorm13.pdf", replace
+	* Linearity assumption
+	twoway (scatter rs_gps3 es13), yline(0) graphregion(color(white)) ///
+	title("Group problem solving, all studies")
 	*Predictions for graph
 	margins, at(time=(0 4 8 12 16 20 24 28 32 35))
-	* Linearity assumption
-	twoway (scatter rs_gps3 es13), yline(0) ///
-	title("Group problem solving, all studies")
-	graph export "$user/$graphs/Residuals/rvfplot13.pdf", replace
 ********************************************************************************		
 *(e) GROUP PROBLEM SOLVING PLUS TRAINING	
 * Primary analyses
@@ -272,11 +247,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_gpst1,   graphregion(color(white)) ///
 	title("Group problem solving+training, ITS studies only")
-	graph export "$user/$graphs/Residuals/qnorm14.pdf", replace
-	* Linearity assumption
-	twoway (scatter rs_gpst1 es14), yline(0) ///
+	* Linearity assumption (may not be respected)
+	twoway (scatter rs_gpst1 es14), yline(0)  graphregion(color(white)) ///
 	title("Group problem solving+training, ITS studies only") 
-	graph export "$user/$graphs/Residuals/rvfplot14.pdf", replace
 	*Preditions for graph
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 ))	
 
