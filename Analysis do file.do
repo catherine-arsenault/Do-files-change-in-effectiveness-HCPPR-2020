@@ -239,7 +239,7 @@ use "$user/$data/final_OCT272020.dta", clear
 ********************************************************************************		
 *(e) GROUP PROBLEM SOLVING PLUS TRAINING	
 * Primary analyses
-*(e) i. and ii. GPS + Training, ITS only
+*(e) i., ii. and iv. GPS + Training, ITS only
 	mixed es_time time esbaseline || idnum: if strat==5 , ///
 	mle nolog vce(cluster idnum) covariance(identity) 
 	predict es14
@@ -247,7 +247,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_gpst1,   graphregion(color(white)) ///
 	title("Group problem solving+training, ITS studies only")
-	* Linearity assumption (may not be respected)
+	* Linearity assumption 
 	twoway (scatter rs_gpst1 es14), yline(0)  graphregion(color(white)) ///
 	title("Group problem solving+training, ITS studies only") 
 	*Preditions for graph
@@ -262,11 +262,9 @@ use "$user/$data/final_OCT272020.dta", clear
 	*Normality of residuals
 	qnorm rs_gpst2,   graphregion(color(white)) ///
 	title("Group problem solving+training, ITS studies restricted time to 12 months, >=3 studies", size(small))
-	graph export "$user/$graphs/Residuals/qnorm15.pdf", replace
 	* Linearity assumption
-	twoway (scatter rs_gpst2 es14), yline(0) ///
+	twoway (scatter rs_gpst2 es14), yline(0)  graphregion(color(white))  ///
 	title("Group problem solving+training, ITS studies restricted time to 12 months, >=3 studies", size(small)) 
-	graph export "$user/$graphs/Residuals/rvfplot15.pdf", replace
 	
 /********************************************************************************	
 REGRESSIONS FOR TRAINING AND SUPERVISION STRATIFIED BY DOSE (ONE OFF OR ONGOING
