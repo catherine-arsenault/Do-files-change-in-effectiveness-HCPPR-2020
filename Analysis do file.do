@@ -263,7 +263,7 @@ use "$user/$data/final_OCT272020.dta", clear
 	qnorm rs_gpst2,   graphregion(color(white)) ///
 	title("Group problem solving+training, ITS studies restricted time to 12 months, >=3 studies", size(small))
 	* Linearity assumption
-	twoway (scatter rs_gpst2 es14), yline(0)  graphregion(color(white))  ///
+	twoway (scatter rs_gpst2 es15), yline(0)  graphregion(color(white))  ///
 	title("Group problem solving+training, ITS studies restricted time to 12 months, >=3 studies", size(small)) 
 	
 /********************************************************************************	
