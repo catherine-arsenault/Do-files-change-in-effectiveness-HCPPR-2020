@@ -1,7 +1,7 @@
 # Do-files-change-in-effectiveness-HCPPR-2020
 This repository contains materials for:
 
-Arsenault C, Rowe SY, Ross-Degnan D, Peters DH, Roder-DeWan S, Kruk ME, Rowe AK. Does the effectiveness of strategies to improve health care provider performance change over time: a secondary analysis of systematic review data (2020) Under review
+Arsenault C, Rowe SY, Ross-Degnan D, Peters DH, Roder-DeWan S, Kruk ME, Rowe AK. Does the effectiveness of strategies to improve health care provider practices in low- and middle-income countries change over time? Secondary analysis of a systematic review (2020) under review
 
 
 It includes: 
