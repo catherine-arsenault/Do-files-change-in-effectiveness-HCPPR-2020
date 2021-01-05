@@ -72,17 +72,17 @@ use "$user/$data/final_OCT272020.dta", clear
 	margins, at(time=(0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30))
 
 *Sensitivity analyses
-* (a) ii. Training, ITS 2P, restrict time to 12 months (>=3 studies)
-	mixed es_time time esbaseline || idnum:   if strat==1 & time<13 & type!="1P", ///
+* (a) ii. Training, ITS 2P, restrict time to 10.5 months (>=3 studies)
+	mixed es_time time esbaseline || idnum:   if strat==1 & time<11 & type!="1P", ///
 	mle   vce(cluster idnum)	covariance(identity) 
 	predict es2
 	predict rs_train2, rstandard
 	*Normality of residuals
 	qnorm rs_train2,   graphregion(color(white)) ///
-	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)", size(small))
+	title("Training, ITS 2P, restrict time to 10.5 months (>=3 studies)", size(small))
 	* Linearity assumption
 	twoway (scatter rs_train2 es2), yline(0) graphregion(color(white)) ///
-	title("Training, ITS 2P, restrict time to 12 months (>=3 studies)", size(small))
+	title("Training, ITS 2P, restrict time to 10.5 months (>=3 studies)", size(small))
 	
 * (a) iii. Training, all studies
 	mixed es_time time esbaseline || idnum:   if strat==1 , ///
@@ -123,17 +123,17 @@ use "$user/$data/final_OCT272020.dta", clear
 	margins, at(time=(0 4 8 12 16 20 24 28 32 33))
 
 *Sensitivity analyses
-*(b) iii. Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)
+*(b) iii. Supervision, ITS and 2P, restrict time to 6 months (>=3 studies)
 	mixed es_time time esbaseline  || idnum:  if strat==2 & time<7 & type!="1P", ///
 	mle   vce(cluster idnum)  covariance(identity) 
 	predict es6
 	predict rs_sup3, rstandard
 	*Normality of residuals
 	qnorm rs_sup3,   graphregion(color(white)) ///
-	title("Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)", size(medium))
+	title("Supervision, ITS and 2P, restrict time to 6 months (>=3 studies)", size(medium))
 	* Linearity assumption
 	twoway (scatter rs_sup3 es6), yline(0) graphregion(color(white)) ///
-	title("Supervision, ITS and 2P, restrict time to 6 monts (>=3 studies)" , size(medium))
+	title("Supervision, ITS and 2P, restrict time to 6 months (>=3 studies)" , size(medium))
 	
 * (b) iv. Supervision, all studies
 	mixed es_time time esbaseline  || idnum:  if strat==2  , ///
@@ -211,17 +211,17 @@ use "$user/$data/final_OCT272020.dta", clear
 	margins, at(time=(0 4 8 12 16 20 24 28 32 35))
 	
 *Sensitivity analyses
-*(d) iii. GPS, ITS only, restrict time to 29 months (>=3 studies)
-	mixed es_time time esbaseline || idnum: if strat==4 & time<30 & type!="1P", ///
+*(d) iii. GPS, ITS only, restrict time to 30 months (>=3 studies)
+	mixed es_time time esbaseline || idnum: if strat==4 & time<30.5 & type!="1P", ///
 	mle   vce(cluster idnum) covariance(identity)  
 	predict es12
 	predict rs_gps2, rstandard
 	*Normality of residuals
 	qnorm rs_gps2,   graphregion(color(white)) ///
-	title("Group problem solving, ITS studies only, restricted time to 29 months, >=3 studies", size(small))
+	title("Group problem solving, ITS studies only, restricted time to 30 months, >=3 studies", size(small))
 	* Linearity assumption
 	twoway (scatter rs_gps2 es12), yline(0) graphregion(color(white)) ///
-	title("Group problem solving, ITS studies only, restricted time to 29 months, >=3 studies", size(small))
+	title("Group problem solving, ITS studies only, restricted time to 30 months, >=3 studies", size(small))
 	
 *(d) iv. GPS, all studies
 	mixed es_time time esbaseline || idnum: if strat==4 , ///
