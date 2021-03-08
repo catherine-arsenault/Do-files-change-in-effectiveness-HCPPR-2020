@@ -6,6 +6,6 @@ Arsenault C, Rowe SY, Ross-Degnan D, Peters DH, Roder-DeWan S, Kruk ME, Rowe AK.
 
 It includes: 
 - Stata code for regression analyses and graphs
-- Diagnostical plots for all regression models (normal quantile plots and residuals-vs-fit plots)
+- Diagnostic plots for all regression models (normal quantile plots and residuals-vs-fit plots)
 - The dataset used for this analysis
 
